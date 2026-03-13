@@ -26,7 +26,7 @@ def grocery_store():
 
     while True:
         # 2. Let the user "add" items
-        item = input("\nEnter item name: ").lower()
+        item = input("\nEnter item name: ").strip().lower()
         
         if item == "checkout":
             break
