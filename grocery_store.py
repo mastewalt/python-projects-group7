@@ -9,6 +9,8 @@ def grocery_store():
     inventory = {
         "rice": 4.50,
         "potato": 3.75,
+
+        
         "apple": 0.99,
         "banana": 0.50,
         "milk": 3.50,
