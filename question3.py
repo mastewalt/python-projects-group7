@@ -26,35 +26,56 @@ while True:
             print("Your list is empty.")
         else:
             print("\nCurrent Tasks:")
-            for idx, task in enumerate(tasks, 1):
+            count = 1
+            for task in tasks:
                 status = "[X]" if task["completed"] else "[ ]"
-                print(f"{idx}. {status} {task['name']} - Priority: {task['priority']}")
+                print(f"{count}. {status} {task['name']} - Priority: {task['priority']}")
+                count += 1
                 
     elif choice == '3':
-        try:
-            num = int(input("Enter task number to mark complete: "))
-            tasks[num-1]["completed"] = True
-            print(f"Task {num} marked as complete.")
-        except (ValueError, IndexError):
-            print("Invalid task number.")
+        if not tasks:
+            print("Your list is empty. Nothing to mark as complete.")
+        else:
+            num_input = input("Enter task number to mark complete: ").strip()
+            if num_input.isdigit():
+                num = int(num_input)
+                if 0 < num <= len(tasks):
+                    tasks[num-1]["completed"] = True
+                    print(f"Task {num} marked as complete.")
+                else:
+                    print("Task number out of range.")
+            else:
+                print("Invalid input. Please enter a number.")
             
     elif choice == '4':
-        try:
-            num = int(input("Enter task number to delete: "))
-            removed = tasks.pop(num-1)
-            print(f"Deleted: {removed['name']}")
-        except (ValueError, IndexError):
-            print("Invalid task number.")
+        if not tasks:
+            print("Your list is empty. Nothing to delete.")
+        else:
+            num_input = input("Enter task number to delete: ").strip()
+            if num_input.isdigit():
+                num = int(num_input)
+                if 0 < num <= len(tasks):
+                    removed = tasks.pop(num-1)
+                    print(f"Deleted: {removed['name']}")
+                else:
+                    print("Task number out of range.")
+            else:
+                print("Invalid input. Please enter a number.")
     else:
         print("Invalid choice, please try again.")
 
-# Final Summary
-completed_count = sum(1 for t in tasks if t["completed"])
-pending_count = len(tasks) - completed_count
+completed_count = 0
+pending_count = 0
+
+for task in tasks:
+    if task["completed"]:
+        completed_count += 1
+    else:
+        pending_count += 1
 
 print("\n" + "="*20)
 print("FINAL SUMMARY")
-print(f"Completed: {completed_count}")
-print(f"Pending:   {pending_count}")
+print(f"Completed Tasks: {completed_count}")
+print(f"Pending Tasks:   {pending_count}")
 print("="*20)
 print("Goodbye!")
