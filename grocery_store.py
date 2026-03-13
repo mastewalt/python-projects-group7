@@ -6,60 +6,60 @@
 • Displays a final bill: each item, quantity, subtotal, and total."""
 
 def grocery_store():
+    # 1. Predefined dictionary of groceries with prices
     inventory = {
-        "rice": 4.50,
-        "potato": 3.75,
-
-        
-        "apple": 0.99,
-        "banana": 0.50,
-        "milk": 3.50,
+        "juice": 2.00,
+        "rice": 5.00,
+        "apple": 0.50,
+        "banana": 0.25,
+        "milk": 3.00,
         "bread": 2.50,
         "eggs": 4.00
     }
-
+    
     paper_bags = {}
-    print("Welcome to Grocery Store!")
-    print("Available items:", ", ".join(inventory.keys()))
-    print("Type 'checkout' to finish.")
+
+    print("Welcome to the store! (Type 'checkout' to finish)")
+    print(f"Available items: {', '.join(inventory.keys())}")
 
     while True:
+        # 2. Let the user "add" items
         item = input("\nEnter item name: ").strip().lower()
-
+        
         if item == "checkout":
             break
+        
+        elif item in inventory:
+            # 3. Ask for the quantity
+             if item in inventory:
+                   # 3. Ask for quantity and validate using isalnum()
+                  qty = input(f"Enter quantity for {item}: ")
+                # Use isalnum() to ensure the string is only numbers
+                # (Note: does not handle decimals, only integers)
 
-        if item in inventory:
-            qty_input = input(f"Enter quantity for {item}: ")
-
-            if qty_input.isdigit() and int(qty_input) > 0:
-                quantity = int(qty_input)
-                paper_bags[item] = paper_bags.get(item, 0) + quantity
-                print(f"Added {quantity} {item}(s) to cart.")
-            else:
-                print("Invalid quantity. Please enter a whole number greater than 0.")
+                  if qty.isalnum() and int(qty) > 0:
+                      quantity = int(qty)
+                      # Add to paper_bags or update existing
+                      paper_bags[item] = paper_bags.get(item, 0) + quantity
+                      print(f"Added {quantity} {item}(s) to paper_bags.")
+             else:
+                      print("Invalid quantity. Please enter a positive number.")
         else:
-            print("Item not found. Please choose from the list above.")
+            print("Item not found in inventory. Please try again.")
 
-    if not paper_bags:
-        print("\nYour cart is empty. Have a nice day!")
-        return
-
-    print("\n" + "="*35)
-    print("        FINAL RECEIPT")
-    print("="*35)
-    print(f"{'Item':<10} | {'Qty':<3} | {'Price':<6} | {'Subtotal'}")
-    print("-" * 35)
-
+    # 5. Display final bill
+    print("\n--- Final Bill ---")
     total = 0
+    print(f"{'Item':<10} | {'Qty':<5} | {'Subtotal':<10}")
+    print("=" * 30)
+    
     for item, quantity in paper_bags.items():
         price = inventory[item]
         subtotal = price * quantity
         total += subtotal
-        print(f"{item.capitalize():<10} | {quantity:<3} | ${price:<5.2f} | ${subtotal:.2f}")
-
-    print("-" * 35)
-    print(f"{'TOTAL:':<23} | ${total:.2f}")
-    print("="*35)
+        print(f"{item.capitalize():<10} | {quantity:<5} | ${subtotal:.2f}")
+        
+    print("-" * 30)
+    print(f"Total: ${total:.2f}")
 
 grocery_store()
