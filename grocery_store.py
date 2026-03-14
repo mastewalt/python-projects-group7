@@ -33,7 +33,7 @@ def grocery_store():
             # 3. Ask for the quantity
              if item in inventory:
                    # 3. Ask for quantity and validate using isdigit()
-                  qty = input(f"Enter quantity for {item}: ")
+                  user_qty = input(f"Enter quantity for {item}: ")
                 # isdigit() checks if the string contains only digits.
                 # (Note: does not handle decimals, only integers)
 
@@ -51,7 +51,7 @@ def grocery_store():
     print("\n--- Final Bill ---")
     total = 0
     print(f"{'Item':<10} | {'Qty':<5} | {'Subtotal':<10}")
-    print("=" * 30)
+    print("-" * 30)
     
     for item, quantity in paper_bags.items():
         price = inventory[item]
@@ -59,7 +59,7 @@ def grocery_store():
         total += subtotal
         print(f"{item.capitalize():<10} | {quantity:<5} | ${subtotal:.2f}")
         
-    print("-" * 30)
+    print("=" * 30)
     print(f"Total: ${total:.2f}")
 
 grocery_store()
