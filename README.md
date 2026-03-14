@@ -55,4 +55,4 @@ Test your knowledge with a simple quiz:
 
 Example:
 ```bash
-python question3.py
+python question1.py
