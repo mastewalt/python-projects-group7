@@ -32,13 +32,13 @@ def grocery_store():
         elif item in inventory:
             # 3. Ask for the quantity
              if item in inventory:
-                   # 3. Ask for quantity and validate using isalnum()
+                   # 3. Ask for quantity and validate using isdigit()
                   qty = input(f"Enter quantity for {item}: ")
-                # Use isalnum() to ensure the string is only numbers
+                # isdigit() checks if the string contains only digits.
                 # (Note: does not handle decimals, only integers)
 
-                  if qty.isalnum() and int(qty) > 0:
-                      quantity = int(qty)
+                  if user_qty.isdigit() and int(user_qty) > 0:
+                      quantity = int(user_qty)
                       # Add to paper_bags or update existing
                       paper_bags[item] = paper_bags.get(item, 0) + quantity
                       print(f"Added {quantity} {item}(s) to paper_bags.")
