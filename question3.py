@@ -1,81 +1,108 @@
+"""
+3)	Build a to-do list manager that
+•	Allows users to add tasks with priorities (e.g., "Buy milk - high").
+•	Lets them view the current list, delete tasks by number, and mark tasks as complete.
+•	Keeps looping until the user types "exit".
+•	Shows a summary at the end: number of completed tasks vs pending.
+"""
 tasks = []
 
-print("--- To-Do List Manager ---")
+print(r"""
+  _____ ___        ____   ___  
+ |_   _/ _ \      |  _ \ / _ \ 
+   | || | | |_____| | | | | | |
+   | || |_| |_____| |_| | |_| |
+   |_| \___/      |____/ \___/ 
+""")
 
 while True:
-    print("\nMenu:")
-    print("1. Add Task")
-    print("2. View Tasks")
-    print("3. Mark Task Complete")
-    print("4. Delete Task")
-    print("5. Exit")
+    print("\n" + "═"*25)
+    print("      MAIN MENU")
+    print("═"*25)
+    print(" 1. Add Task")
+    print(" 2. View Tasks")
+    print(" 3. Mark Complete")
+    print(" 4. Delete Task")
+    print(" 5. Exit")
     
-    choice = input("Select an option (1-5) or type 'exit': ").strip().lower()
+    choice = input("\nSelect (1-5): ").strip().lower()
     
     if choice in ['5', 'exit']:
         break
         
     elif choice == '1':
-        name = input("Enter task name: ").strip()
-        priority = input("Enter priority (e.g., High, Medium, Low): ").strip().capitalize()
+        while True:
+            name = input("Enter task name: ").strip()
+            if name: break
+            print("Name cannot be empty!")
+
+        while True:
+            p_input = input("Priority (High/Med/Low): ").strip().capitalize()
+            if p_input in ["High", "Med", "Low"]:
+                priority = p_input
+                break
+            print("    Invalid priority. Please type High, Med, or Low.")
+
         tasks.append({"name": name, "priority": priority, "completed": False})
-        print(f"Task '{name}' added.")
+        print(f"   Added: '{name}'")
         
     elif choice == '2':
         if not tasks:
-            print("Your list is empty.")
+            print("\n  [!] Your list is empty.")
         else:
-            print("\nCurrent Tasks:")
-            count = 1
-            for task in tasks:
-                status = "[X]" if task["completed"] else "[ ]"
-                print(f"{count}. {status} {task['name']} - Priority: {task['priority']}")
-                count += 1
+            print(f"\n{'#':<3} {'STATUS':<8} {'TASK':<15} | {'PRIORITY'}")
+            print("-" * 40)
+            for i, task in enumerate(tasks, 1):
+                status = "[✔]" if task["completed"] else "[ ]"
+
+                print(f"{i:<3} {status:<8} {task['name']:<15} | {task['priority']}")
                 
     elif choice == '3':
         if not tasks:
-            print("Your list is empty. Nothing to mark as complete.")
-        else:
-            num_input = input("Enter task number to mark complete: ").strip()
-            if num_input.isdigit():
-                num = int(num_input)
-                if 0 < num <= len(tasks):
-                    tasks[num-1]["completed"] = True
-                    print(f"Task {num} marked as complete.")
-                else:
-                    print("Task number out of range.")
-            else:
-                print("Invalid input. Please enter a number.")
+            print("\n  [!] Nothing to complete.")
+            continue
             
+        num_input = input("Enter number to complete: ").strip()
+        
+        if num_input.isdigit():
+            idx = int(num_input) - 1
+            if 0 <= idx < len(tasks):
+                tasks[idx]["completed"] = True
+                print(f"   Task '{tasks[idx]['name']}' is done!")
+            else:
+                print("That number isn't on the list.")
+        else:
+            print("Please enter a valid number.")
+
     elif choice == '4':
         if not tasks:
-            print("Your list is empty. Nothing to delete.")
-        else:
-            num_input = input("Enter task number to delete: ").strip()
-            if num_input.isdigit():
-                num = int(num_input)
-                if 0 < num <= len(tasks):
-                    removed = tasks.pop(num-1)
-                    print(f"Deleted: {removed['name']}")
-                else:
-                    print("Task number out of range.")
+            print("\n  [!] Nothing to delete.")
+            continue
+            
+        num_input = input("Enter number to delete: ").strip()
+        
+        if num_input.isdigit():
+            idx = int(num_input) - 1
+            if 0 <= idx < len(tasks):
+                removed = tasks.pop(idx)
+                print(f"  🗑️  Removed: '{removed['name']}'")
             else:
-                print("Invalid input. Please enter a number.")
+                print("That number isn't on the list.")
+        else:
+            print("Please enter a valid number.")
     else:
-        print("Invalid choice, please try again.")
+        print(f"\n'{choice}' is not a valid option. Please pick 1-5.")
+        
+        
+done = 0
+for t in tasks:
+    if t["completed"]:
+        done += 1
+todo = len(tasks) - done
 
-completed_count = 0
-pending_count = 0
-
-for task in tasks:
-    if task["completed"]:
-        completed_count += 1
-    else:
-        pending_count += 1
-
-print("\n" + "="*20)
-print("FINAL SUMMARY")
-print(f"Completed Tasks: {completed_count}")
-print(f"Pending Tasks:   {pending_count}")
-print("="*20)
-print("Goodbye!")
+print("\n" + "=" * 30)
+print(f"   FINAL STATS")
+print(f"   Completed: {done}")
+print(f"   Pending:   {todo}")
+print("=" * 30)
+print("BYE BYE!")
